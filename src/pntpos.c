@@ -392,8 +392,12 @@ static int rescode_sub(int iter, const obsd_t *obs, int n, const double *rs,
 		/* error variance */
 		var[nv++]=varerr(opt,azel[1+i*2],sys)+vare[i]+vmeas+vion+vtrp;
 
-		trace(1, "time=%s sat=%s azel=%05.1f %04.1f res=%07.3f sig=%05.3f\n", time_str(obs[i].time, 3),
-			satnum2prn(obs[i].sat), azel[i * 2] * R2D, azel[1 + i * 2] * R2D, resp[i], sqrt(var[nv - 1]));
+		if (fabs(resp[i]) < 1000) {
+            trace(1, "time=%s sat=%s azel=%05.1f %04.1f res=%07.3f sig=%05.3f\n", time_str(obs[i].time, 3),
+			satnum2prn(obs[i].sat), azel[i * 2] * R2D, azel[1 + i * 2] * R2D, fabs(resp[i]), sqrt(var[nv - 1]));
+		}
+
+
 	}
 	/* constraint to avoid rank-deficient */
 	for (i=0;i<4;i++) {

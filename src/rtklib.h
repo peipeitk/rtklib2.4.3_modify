@@ -1267,7 +1267,7 @@ typedef struct {        /* stream type */
     unsigned int tick_o; /* output tick */
     unsigned int tact;  /* active tick */
     unsigned int inbt,outbt; /* input/output bytes at tick */
-    lock_t lock;        /* lock flag */
+	lock_t lock;        /* lock flag */
     void *port;         /* type dependent port control struct */
     char path[MAXSTRPATH]; /* stream path */
     char msg [MAXSTRMSG];  /* stream message */

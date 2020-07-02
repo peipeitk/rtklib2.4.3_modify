@@ -138,9 +138,18 @@ extern int pppoutstat(rtk_t *rtk, char *buff)
     x=rtk->sol.stat==SOLQ_FIX?rtk->xa:rtk->x;
     
     /* receiver position */
-    p+=sprintf(p,"$POS,%d,%.3f,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",week,tow,
-               rtk->sol.stat,x[0],x[1],x[2],STD(rtk,0),STD(rtk,1),STD(rtk,2));
-    
+	p+=sprintf(p,"$POS,%d,%.3f,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",week,tow,
+			   rtk->sol.stat,x[0],x[1],x[2],STD(rtk,0),STD(rtk,1),STD(rtk,2));
+
+	/* receiver velocity and acceleration */
+	/* dynamics ‚ðon‚É‚µ‚È‚­‚Ä‚ào—Í‚·‚é‚æ‚¤‚É•ÏX */
+    ecef2pos(rtk->sol.rr,pos);
+	ecef2enu(pos,rtk->x+3,vel);
+	ecef2enu(pos,rtk->x+6,acc);
+	p+=sprintf(p,"$VELACC,%d,%.3f,%d,%.4f,%.4f,%.4f,%.5f,%.5f,%.5f,%.4f,%.4f,"
+			   "%.4f,%.5f,%.5f,%.5f\n",week,tow,rtk->sol.stat,vel[0],vel[1],
+			   vel[2],acc[0],acc[1],acc[2],0.0,0.0,0.0,0.0,0.0,0.0);
+
     /* receiver velocity and acceleration */
     if (rtk->opt.dynamics) {
         ecef2pos(rtk->sol.rr,pos);
