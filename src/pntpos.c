@@ -65,7 +65,7 @@ char* satnum2prn(int satnum)
 		prn[2] = satnum_char[1];
 	}
 	//QZSS
-	else if (95 < satnum && satnum < 99)
+	else if (95 < satnum && satnum < 103)
 	{
 		satnum = satnum - 95;
 		snprintf(satnum_char, 3, "%02d", satnum);
@@ -420,10 +420,10 @@ static int valsol(const double *azel, const int *vsat, int n,
     
     /* chi-square validation of residuals */
     vv=dot(v,v,nv);
-    if (nv>nx&&vv>chisqr[nv-nx-1]) {
+	if (nv>nx&&vv>chisqr[nv-nx-1]) {
         sprintf(msg,"chi-square error nv=%d vv=%.1f cs=%.1f",nv,vv,chisqr[nv-nx-1]);
         return 0;
-    }
+	}
     /* large gdop check */
     for (i=ns=0;i<n;i++) {
         if (!vsat[i]) continue;
